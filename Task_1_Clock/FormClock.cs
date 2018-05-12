@@ -75,18 +75,27 @@ namespace Task_1_Clock
                 //    new Pen(Brushes.Black, 2),
                 //    this.ComputeArrow(this.centerPoint, i, 80),
                 //    this.ComputeArrow(this.centerPoint, i, 83));
+
+                // красные кружочки
+                //this.graphics.DrawEllipse(new Pen(Brushes.Red, 2), new Rectangle(
+                //    ComputeArrow(centerPoint, i, 80), new Size(4, 4)
+                //    ));
+
+                //this.graphics.DrawEllipse(new Pen(Brushes.Black, 2), new Rectangle(
+                //    ComputeArrow(centerPoint, i * 5, 80), new Size(6, 6)
+                //    ));
+
+                Point p1 = ComputeArrow(centerPoint, i, 83);
+                p1 = new Point(p1.X - 2, p1.Y - 2);
                 this.graphics.DrawEllipse(new Pen(Brushes.Red, 2), new Rectangle(
-                    ComputeArrow(centerPoint, i, 80), new Size(4, 4)
+                    p1, new Size(4, 4)
                     ));
-
-                this.graphics.DrawEllipse(new Pen(Brushes.Black, 2), new Rectangle(
-                    ComputeArrow(centerPoint, i * 5, 80), new Size(6, 6)
-                    ));
-
-                //this.graphics.FillEllipse(
-                //    Brushes.Black,
-                //    new Rectangle(ComputeArrow(centerPoint, i * 5, 83), new Size(10, 10))
-                //    );
+                Point p2 = ComputeArrow(centerPoint, i * 5, 83);
+                p2 = new Point(p2.X - 5, p2.Y - 5);
+                this.graphics.FillEllipse(
+                    Brushes.Black,
+                    new Rectangle(p2, new Size(10, 10))
+                    );
             }
 
             // test
