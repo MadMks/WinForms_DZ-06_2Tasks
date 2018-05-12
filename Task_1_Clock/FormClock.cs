@@ -55,7 +55,19 @@ namespace Task_1_Clock
                 this.centerPoint,
                 this.ComputeArrow(this.centerPoint, ss, 80));
 
-            
+            // Минутная стрелка
+            this.graphics.DrawLine(
+                new Pen(Brushes.Green, 3),
+                this.centerPoint,
+                this.ComputeArrow(this.centerPoint, mm, 70));
+
+            // Часовая стрелка
+            this.graphics.DrawLine(
+                new Pen(Brushes.Yellow, 4),
+                this.centerPoint,
+                this.ComputeArrow(this.centerPoint, ((hh - 1 / 2) * 5) + (mm / 12), 60));
+
+
 
             for (int i = 0; i < SECOND_PER_MINUTE; i++)
             {
@@ -66,6 +78,15 @@ namespace Task_1_Clock
                 this.graphics.DrawEllipse(new Pen(Brushes.Red, 2), new Rectangle(
                     ComputeArrow(centerPoint, i, 80), new Size(4, 4)
                     ));
+
+                this.graphics.DrawEllipse(new Pen(Brushes.Black, 2), new Rectangle(
+                    ComputeArrow(centerPoint, i * 5, 80), new Size(6, 6)
+                    ));
+
+                //this.graphics.FillEllipse(
+                //    Brushes.Black,
+                //    new Rectangle(ComputeArrow(centerPoint, i * 5, 83), new Size(10, 10))
+                //    );
             }
 
             // test
