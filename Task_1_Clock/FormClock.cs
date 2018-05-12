@@ -15,6 +15,14 @@ namespace Task_1_Clock
     {
         private const int SECOND_PER_MINUTE = 60;
 
+        private const int RADIUS_OF_THE_CLOCK = 83;
+        private const int DIAMETER_OF_HOUR_MARK = 10;
+        private const int DIAMETER_OF_MINUTE_MARK = 4;
+
+        private const int ARROW_LENGTH_HOUR = 60;
+        private const int ARROW_LENGTH_MINUTE = 70;
+        private const int ARROW_LENGTH_SECONDS = 80;
+
         private Timer timer;
         private Point centerPoint;
         private Graphics graphics;
@@ -41,7 +49,6 @@ namespace Task_1_Clock
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            //this.graphics = Graphics;
             this.graphics = Graphics.FromImage(this.bmp);
             graphics.Clear(Color.LightSalmon);
 
@@ -53,48 +60,53 @@ namespace Task_1_Clock
             this.graphics.DrawLine(
                 new Pen(Brushes.Blue, 2),
                 this.centerPoint,
-                this.ComputeArrow(this.centerPoint, ss, 80));
+                this.ComputeArrow(this.centerPoint, ss, ARROW_LENGTH_SECONDS));
 
             // Минутная стрелка
             this.graphics.DrawLine(
                 new Pen(Brushes.Green, 3),
                 this.centerPoint,
-                this.ComputeArrow(this.centerPoint, mm, 70));
+                this.ComputeArrow(this.centerPoint, mm, ARROW_LENGTH_MINUTE));
 
             // Часовая стрелка
             this.graphics.DrawLine(
                 new Pen(Brushes.Yellow, 4),
                 this.centerPoint,
-                this.ComputeArrow(this.centerPoint, ((hh - 1 / 2) * 5) + (mm / 12), 60));
+                this.ComputeArrow(
+                    this.centerPoint,
+                    ((hh - 1 / 2) * 5) + (mm / 12), ARROW_LENGTH_HOUR));
 
 
 
             for (int i = 0; i < SECOND_PER_MINUTE; i++)
             {
-                //this.graphics.DrawLine(
-                //    new Pen(Brushes.Black, 2),
-                //    this.ComputeArrow(this.centerPoint, i, 80),
-                //    this.ComputeArrow(this.centerPoint, i, 83));
-
-                // красные кружочки
-                //this.graphics.DrawEllipse(new Pen(Brushes.Red, 2), new Rectangle(
-                //    ComputeArrow(centerPoint, i, 80), new Size(4, 4)
-                //    ));
-
-                //this.graphics.DrawEllipse(new Pen(Brushes.Black, 2), new Rectangle(
-                //    ComputeArrow(centerPoint, i * 5, 80), new Size(6, 6)
-                //    ));
-
-                Point p1 = ComputeArrow(centerPoint, i, 83);
-                p1 = new Point(p1.X - 2, p1.Y - 2);
-                this.graphics.DrawEllipse(new Pen(Brushes.Red, 2), new Rectangle(
-                    p1, new Size(4, 4)
+                // Ставим метки минут/секунд:
+                Point pMmSs = ComputeArrow(centerPoint, i, RADIUS_OF_THE_CLOCK);
+                // Центрируем метки.
+                pMmSs = new Point(
+                    pMmSs.X - (DIAMETER_OF_MINUTE_MARK / 2),
+                    pMmSs.Y - (DIAMETER_OF_MINUTE_MARK / 2));
+                // Ставим метку.
+                this.graphics.DrawEllipse(
+                    new Pen(Brushes.Red, 2),
+                    new Rectangle(
+                        pMmSs,
+                        new Size(DIAMETER_OF_MINUTE_MARK, DIAMETER_OF_MINUTE_MARK)
                     ));
-                Point p2 = ComputeArrow(centerPoint, i * 5, 83);
-                p2 = new Point(p2.X - 5, p2.Y - 5);
+
+                // Ставим метки часов:
+                Point pHour = ComputeArrow(centerPoint, i * 5, RADIUS_OF_THE_CLOCK);
+                // умножаем на 5 - чтоб часовая стрелка показывала правильно.
+                // Центрируем метки.
+                pHour = new Point(
+                    pHour.X - (DIAMETER_OF_HOUR_MARK / 2),
+                    pHour.Y - (DIAMETER_OF_HOUR_MARK / 2));
+                // Ставим метку.
                 this.graphics.FillEllipse(
                     Brushes.Black,
-                    new Rectangle(p2, new Size(10, 10))
+                    new Rectangle(
+                        pHour,
+                        new Size(DIAMETER_OF_HOUR_MARK, DIAMETER_OF_HOUR_MARK))
                     );
             }
 
