@@ -35,7 +35,7 @@ namespace Task_1_Clock
 
         private void FormClock_Load(object sender, EventArgs e)
         {
-            //this.ChangeTheShapeToRound();
+            this.ChangeTheShapeToRound();
 
             this.timer = new Timer();
             this.timer.Interval = 1000;
@@ -131,6 +131,9 @@ namespace Task_1_Clock
         private void ChangeTheShapeToRound()
         {
             this.FormBorderStyle = FormBorderStyle.None;
+
+            this.Width = 190;
+            this.Height = 190;
 
             GraphicsPath formPath = new GraphicsPath();
             formPath.AddEllipse(0, 0, this.Width, this.Height);
