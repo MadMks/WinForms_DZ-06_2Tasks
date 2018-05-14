@@ -110,7 +110,6 @@ namespace Task_1_Clock
                     );
             }
 
-            // test
             this.Text = $"{hh}:{mm}:{ss}";
 
             this.pictureBox.Image = this.bmp;
@@ -137,7 +136,19 @@ namespace Task_1_Clock
 
             GraphicsPath formPath = new GraphicsPath();
             formPath.AddEllipse(0, 0, this.Width, this.Height);
+
+            formPath.AddRectangle(new Rectangle(160, 0, 20, 20));
             Region = new Region(formPath);
+
+            this.buttonClose.Visible = true;
+
+            this.buttonClose.Location = new Point(160, 0);
+            this.buttonClose.Size = new Size(20, 20);
+        }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
