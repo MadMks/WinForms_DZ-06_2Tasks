@@ -38,6 +38,12 @@ namespace Task_2_Chess
 
         PictureBox picBox;  // TODO private
 
+        //ContextMenuStrip contextMenuStripForCell;
+        //ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
+        ContextMenuStrip contextMenuStripForCell = new ContextMenuStrip();
+        ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
+        
+
         public MainForm()
         {
             InitializeComponent();
@@ -58,6 +64,9 @@ namespace Task_2_Chess
             this.Height
                 = (CELL_SIZE * NUMBER_OF_CELLS_IN_ROW)
                 + (this.Height - this.ClientSize.Height);
+
+
+            contextMenuStripForCell.Items.Add(figureNameMenuItem);
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
@@ -126,7 +135,11 @@ namespace Task_2_Chess
                 }
             }
 
-            this.Controls.Add(picBox);
+            //ContextMenuStrip contextMenuStripForCell = new ContextMenuStrip();
+            //ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
+            //contextMenuStripForCell.Items.Add(figureNameMenuItem);
+            //picBox.ContextMenuStrip = contextMenuStripForCell;
+            //this.Controls.Add(picBox);
         }
 
         private bool IsFieldOfMainUserFigures(int i)
@@ -156,6 +169,14 @@ namespace Task_2_Chess
             picBox.BackColor = Color.Transparent;
 
             picBox.Location = new Point(rect.X, rect.Y);
+
+
+            // TODO -> method
+            //ContextMenuStrip contextMenuStripForCell = new ContextMenuStrip();
+            //ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
+            //contextMenuStripForCell.Items.Add(figureNameMenuItem);
+            picBox.ContextMenuStrip = contextMenuStripForCell;
+            this.Controls.Add(picBox);
         }
 
         private bool IsUserPawnsField(int i)
