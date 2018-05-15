@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Task_2_Chess.Properties;
 
 namespace Task_2_Chess
 {
@@ -16,6 +17,8 @@ namespace Task_2_Chess
         private const int NUMBER_OF_CELLS_IN_ROW = 8;
 
         Brush brushCell = Brushes.White;
+
+        PictureBox picBox;
 
         public MainForm()
         {
@@ -46,7 +49,7 @@ namespace Task_2_Chess
                 {
                     graphics.FillRectangle(this.brushCell, rectCell);
 
-                    //this.ArrangementOfFigures(i, y);
+                    this.ArrangementOfFigures(i, y, rectCell);
 
                     this.ChangeColorBrush();
                     rectCell.X += CELL_SIZE;
@@ -70,9 +73,29 @@ namespace Task_2_Chess
             }
         }
 
-        private void ArrangementOfFigures(int i, int y)
+        private void ArrangementOfFigures(int i, int y, Rectangle rect)
         {
-            //throw new NotImplementedException();
+            if (this.FirstPlayer(i) == true)
+            {
+                //picBox = new PictureBox();
+                //picBox.ClientSize = new Size(CELL_SIZE, CELL_SIZE);
+                //picBox.Image = Resources.bishopB;
+                //picBox.SizeMode = PictureBoxSizeMode.Zoom;
+                //picBox.BackColor = Color.Transparent;
+
+                //picBox.Location = new Point(rect.X, rect.Y);
+            }
+
+            this.Controls.Add(picBox);
+        }
+
+        private bool FirstPlayer(int i)
+        {
+            if (i == 0 || i == 1)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
