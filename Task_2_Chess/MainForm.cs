@@ -13,20 +13,45 @@ namespace Task_2_Chess
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Размер одной клетки/ячейки.
+        /// </summary>
         private const int CELL_SIZE = 25;
+        /// <summary>
+        /// Кол-во клеток в строке/столбце.
+        /// </summary>
         private const int NUMBER_OF_CELLS_IN_ROW = 8;
 
-        Brush brushCell = Brushes.White;
+        /// <summary>
+        /// Цвет светлой клетки.
+        /// </summary>
+        private readonly Brush lightCell;
+        /// <summary>
+        /// Цвет темной клетки.
+        /// </summary>
+        private readonly Brush darkCell;
 
-        PictureBox picBox;
+        /// <summary>
+        /// Цвет клетки (закрашиваемой).
+        /// </summary>
+        private Brush brushCell;
+
+        PictureBox picBox;  // TODO private
 
         public MainForm()
         {
             InitializeComponent();
+
+            // Здесь выставляем цвета для клеток.
+            this.lightCell = Brushes.SandyBrown;
+            this.darkCell = Brushes.Chocolate;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            this.brushCell = this.lightCell;
+            
+
             this.Width
                 = (CELL_SIZE * NUMBER_OF_CELLS_IN_ROW)
                 + (this.Width - this.ClientSize.Width);
@@ -63,19 +88,19 @@ namespace Task_2_Chess
 
         private void ChangeColorBrush()
         {
-            if (brushCell == Brushes.White)
+            if (brushCell == this.lightCell)
             {
-                brushCell = Brushes.Black;
+                brushCell = this.darkCell;
             }
             else
             {
-                brushCell = Brushes.White;
+                brushCell = this.lightCell;
             }
         }
 
         private void ArrangementOfFigures(int i, int y, Rectangle rect)
         {
-            if (this.FirstPlayer(i) == true)
+            if (this.UserPlayer(i) == true)
             {
                 //picBox = new PictureBox();
                 //picBox.ClientSize = new Size(CELL_SIZE, CELL_SIZE);
@@ -84,14 +109,63 @@ namespace Task_2_Chess
                 //picBox.BackColor = Color.Transparent;
 
                 //picBox.Location = new Point(rect.X, rect.Y);
+                if (this.UserPawns(i) == true)
+                {
+                    this.PlaceAFigure(rect, Resources.pawnW);
+                }
+            }
+            else if (this.CompPlayer(i) == true)
+            {
+                if (this.CompPawns(i) == true)
+                {
+                    this.PlaceAFigure(rect, Resources.pawnB);
+                }
             }
 
             this.Controls.Add(picBox);
         }
 
-        private bool FirstPlayer(int i)
+        private bool CompPawns(int i)
+        {
+            if (i == 1)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void PlaceAFigure(Rectangle rect, Bitmap figure)
+        {
+            picBox = new PictureBox();
+            picBox.ClientSize = new Size(CELL_SIZE, CELL_SIZE);
+            picBox.Image = figure;
+            picBox.SizeMode = PictureBoxSizeMode.Zoom;
+            picBox.BackColor = Color.Transparent;
+
+            picBox.Location = new Point(rect.X, rect.Y);
+        }
+
+        private bool UserPawns(int i)
+        {
+            if (i == 6)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool CompPlayer(int i)
         {
             if (i == 0 || i == 1)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool UserPlayer(int i)
+        {
+            if (i == 6 || i == 7)
             {
                 return true;
             }
