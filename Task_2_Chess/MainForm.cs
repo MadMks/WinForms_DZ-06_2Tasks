@@ -100,7 +100,7 @@ namespace Task_2_Chess
 
         private void ArrangementOfFigures(int i, int y, Rectangle rect)
         {
-            if (this.UserPlayer(i) == true)
+            if (this.IsUserField(i) == true)
             {
                 //picBox = new PictureBox();
                 //picBox.ClientSize = new Size(CELL_SIZE, CELL_SIZE);
@@ -109,14 +109,18 @@ namespace Task_2_Chess
                 //picBox.BackColor = Color.Transparent;
 
                 //picBox.Location = new Point(rect.X, rect.Y);
-                if (this.UserPawns(i) == true)
+                if (this.IsFieldOfMainUserFigures(i) == true)
+                {
+                    // TODO метод: ставим основные фигуры
+                }
+                if (this.IsUserPawnsField(i) == true)
                 {
                     this.PlaceAFigure(rect, Resources.pawnW);
                 }
             }
-            else if (this.CompPlayer(i) == true)
+            else if (this.IsCompField(i) == true)
             {
-                if (this.CompPawns(i) == true)
+                if (this.IsCompPawnsField(i) == true)
                 {
                     this.PlaceAFigure(rect, Resources.pawnB);
                 }
@@ -125,7 +129,16 @@ namespace Task_2_Chess
             this.Controls.Add(picBox);
         }
 
-        private bool CompPawns(int i)
+        private bool IsFieldOfMainUserFigures(int i)
+        {
+            if (i == 7)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsCompPawnsField(int i)
         {
             if (i == 1)
             {
@@ -145,7 +158,7 @@ namespace Task_2_Chess
             picBox.Location = new Point(rect.X, rect.Y);
         }
 
-        private bool UserPawns(int i)
+        private bool IsUserPawnsField(int i)
         {
             if (i == 6)
             {
@@ -154,7 +167,7 @@ namespace Task_2_Chess
             return false;
         }
 
-        private bool CompPlayer(int i)
+        private bool IsCompField(int i)
         {
             if (i == 0 || i == 1)
             {
@@ -163,7 +176,7 @@ namespace Task_2_Chess
             return false;
         }
 
-        private bool UserPlayer(int i)
+        private bool IsUserField(int i)
         {
             if (i == 6 || i == 7)
             {
