@@ -66,7 +66,13 @@ namespace Task_2_Chess
                 + (this.Height - this.ClientSize.Height);
 
 
-            contextMenuStripForCell.Items.Add(figureNameMenuItem);
+            this.contextMenuStripForCell.Items.Add(figureNameMenuItem);
+            this.figureNameMenuItem.Click += FigureNameMenuItem_Click;
+        }
+
+        private void FigureNameMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show((sender as ToolStripMenuItem).Owner.ContextMenuStrip.AccessibleName, "Название фигуры");    // HACK
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
@@ -169,6 +175,7 @@ namespace Task_2_Chess
             picBox.BackColor = Color.Transparent;
 
             picBox.Location = new Point(rect.X, rect.Y);
+            picBox.AccessibleName = "test";
 
 
             // TODO -> method
