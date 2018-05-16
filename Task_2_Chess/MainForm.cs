@@ -40,8 +40,8 @@ namespace Task_2_Chess
 
         //ContextMenuStrip contextMenuStripForCell;
         //ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
-        ContextMenuStrip contextMenuStripForCell = new ContextMenuStrip();
-        ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
+        //ContextMenuStrip contextMenuStripForCell/* = new ContextMenuStrip()*/;  // TODO contMenu
+        //ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
         
 
         public MainForm()
@@ -66,13 +66,32 @@ namespace Task_2_Chess
                 + (this.Height - this.ClientSize.Height);
 
 
-            this.contextMenuStripForCell.Items.Add(figureNameMenuItem);
-            this.figureNameMenuItem.Click += FigureNameMenuItem_Click;
+            //this.contextMenuStripForCell.Items.Add(figureNameMenuItem);   // TODO contMenu
+            //this.figureNameMenuItem.Click += FigureNameMenuItem_Click;
         }
 
         private void FigureNameMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show((sender as ToolStripMenuItem).Owner.ContextMenuStrip.AccessibleName, "Название фигуры");    // HACK
+            //MessageBox.Show((sender as ToolStripMenuItem).Owner.ContextMenuStrip.AccessibleName, "Название фигуры");    // HACK
+            foreach (var item in this.Controls)
+            {
+                if (item is PictureBox)
+                {
+                    if ((item as PictureBox).ContextMenuStrip.Equals(
+                        (sender as ToolStripMenuItem).Owner))
+                    {
+                        MessageBox.Show((item as PictureBox).AccessibleName);
+                    }
+                }
+            }
+            //if (sender is ToolStripMenuItem)
+            //{
+                
+
+            //    MessageBox.Show("test");
+            //}
+
+            
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
@@ -179,9 +198,12 @@ namespace Task_2_Chess
 
 
             // TODO -> method
-            //ContextMenuStrip contextMenuStripForCell = new ContextMenuStrip();
-            //ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
+            ContextMenuStrip contextMenuStripForCell = new ContextMenuStrip();
+            //contextMenuStripForCell = new ContextMenuStrip();
+            ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
             //contextMenuStripForCell.Items.Add(figureNameMenuItem);
+            figureNameMenuItem.Click += FigureNameMenuItem_Click;
+            contextMenuStripForCell.Items.Add(figureNameMenuItem);
             picBox.ContextMenuStrip = contextMenuStripForCell;
             this.Controls.Add(picBox);
         }
