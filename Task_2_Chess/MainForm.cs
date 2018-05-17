@@ -16,7 +16,7 @@ namespace Task_2_Chess
         /// <summary>
         /// Размер одной клетки/ячейки.
         /// </summary>
-        private const int CELL_SIZE = 25;
+        private const int CELL_SIZE = 50;
         /// <summary>
         /// Кол-во клеток в строке/столбце.
         /// </summary>
@@ -36,12 +36,10 @@ namespace Task_2_Chess
         /// </summary>
         private Brush brushCell;
 
-        PictureBox picBox;  // TODO private
 
-        //ContextMenuStrip contextMenuStripForCell;
-        //ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
-        //ContextMenuStrip contextMenuStripForCell/* = new ContextMenuStrip()*/;  // TODO contMenu
-        //ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
+        private Graphics graphics;
+        private PictureBox picBox;
+
         
 
         public MainForm()
@@ -55,8 +53,7 @@ namespace Task_2_Chess
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            this.brushCell = this.lightCell;
-            
+            this.brushCell = this.lightCell;        
 
             this.Width
                 = (CELL_SIZE * NUMBER_OF_CELLS_IN_ROW)
@@ -64,15 +61,10 @@ namespace Task_2_Chess
             this.Height
                 = (CELL_SIZE * NUMBER_OF_CELLS_IN_ROW)
                 + (this.Height - this.ClientSize.Height);
-
-
-            //this.contextMenuStripForCell.Items.Add(figureNameMenuItem);   // TODO contMenu
-            //this.figureNameMenuItem.Click += FigureNameMenuItem_Click;
         }
 
         private void FigureNameMenuItem_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show((sender as ToolStripMenuItem).Owner.ContextMenuStrip.AccessibleName, "Название фигуры");    // HACK
             foreach (var item in this.Controls)
             {
                 if (item is PictureBox)
@@ -84,19 +76,11 @@ namespace Task_2_Chess
                     }
                 }
             }
-            //if (sender is ToolStripMenuItem)
-            //{
-                
-
-            //    MessageBox.Show("test");
-            //}
-
-            
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            Graphics graphics = e.Graphics;
+            this.graphics = e.Graphics;
 
             Point point = new Point(0, 0);
             Size size = new Size(CELL_SIZE, CELL_SIZE);
@@ -118,6 +102,8 @@ namespace Task_2_Chess
                 rectCell.X = 0;
                 rectCell.Y += CELL_SIZE;
             }
+            
+            graphics.Dispose();
         }
 
         private void ChangeColorBrush()
@@ -136,35 +122,84 @@ namespace Task_2_Chess
         {
             if (this.IsUserField(i) == true)
             {
-                //picBox = new PictureBox();
-                //picBox.ClientSize = new Size(CELL_SIZE, CELL_SIZE);
-                //picBox.Image = Resources.bishopB;
-                //picBox.SizeMode = PictureBoxSizeMode.Zoom;
-                //picBox.BackColor = Color.Transparent;
-
-                //picBox.Location = new Point(rect.X, rect.Y);
+                
                 if (this.IsFieldOfMainUserFigures(i) == true)
                 {
-                    // TODO метод: ставим основные фигуры
+                    this.CheckAndPutTheMainUserFigures(y, rect);
                 }
-                if (this.IsUserPawnsField(i) == true)
+                else if (this.IsUserPawnsField(i) == true)
                 {
-                    this.PlaceAFigure(rect, Resources.pawnW);
+                    this.PlaceAFigure(rect, Resources.pawnW , "Пешка");
                 }
             }
             else if (this.IsCompField(i) == true)
             {
-                if (this.IsCompPawnsField(i) == true)
+                if (this.IsFielOfMainCompFigures(i) == true)
                 {
-                    this.PlaceAFigure(rect, Resources.pawnB);
+                    this.CheckAndPutTheMainCompFigures(y, rect);
+                }
+                else if (this.IsCompPawnsField(i) == true)
+                {
+                    this.PlaceAFigure(rect, Resources.pawnB, "Пешка");
                 }
             }
+        }
 
-            //ContextMenuStrip contextMenuStripForCell = new ContextMenuStrip();
-            //ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
-            //contextMenuStripForCell.Items.Add(figureNameMenuItem);
-            //picBox.ContextMenuStrip = contextMenuStripForCell;
-            //this.Controls.Add(picBox);
+        private void CheckAndPutTheMainCompFigures(int y, Rectangle rect)
+        {
+            if (y == 0 || y == 7)
+            {
+                this.PlaceAFigure(rect, Resources.rookB, "Ладья");
+            }
+            else if (y == 1 || y == 6)
+            {
+                this.PlaceAFigure(rect, Resources.knightB, "Конь");
+            }
+            else if (y == 2 || y == 5)
+            {
+                this.PlaceAFigure(rect, Resources.bishopB, "Слон");
+            }
+            else if (y == 3)
+            {
+                this.PlaceAFigure(rect, Resources.queenB, "Ферзь");
+            }
+            else if (y == 4)
+            {
+                this.PlaceAFigure(rect, Resources.kingB, "Король");
+            }
+        }
+
+        private void CheckAndPutTheMainUserFigures(int y, Rectangle rect)
+        {
+            if (y == 0 || y == 7)
+            {
+                this.PlaceAFigure(rect, Resources.rookW, "Ладья");
+            }
+            else if (y == 1 || y  == 6)
+            {
+                this.PlaceAFigure(rect, Resources.knightW, "Конь");
+            }
+            else if (y == 2 || y == 5)
+            {
+                this.PlaceAFigure(rect, Resources.bishopW, "Слон");
+            }
+            else if (y == 3)
+            {
+                this.PlaceAFigure(rect, Resources.queenW, "Ферзь");
+            }
+            else if (y == 4)
+            {
+                this.PlaceAFigure(rect, Resources.kingW, "Король");
+            }
+        }
+
+        private bool IsFielOfMainCompFigures(int i)
+        {
+            if (i == 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         private bool IsFieldOfMainUserFigures(int i)
@@ -185,7 +220,7 @@ namespace Task_2_Chess
             return false;
         }
 
-        private void PlaceAFigure(Rectangle rect, Bitmap figure)
+        private void PlaceAFigure(Rectangle rect, Bitmap figure, string nameFigure)
         {
             picBox = new PictureBox();
             picBox.ClientSize = new Size(CELL_SIZE, CELL_SIZE);
@@ -194,17 +229,16 @@ namespace Task_2_Chess
             picBox.BackColor = Color.Transparent;
 
             picBox.Location = new Point(rect.X, rect.Y);
-            picBox.AccessibleName = "test";
+            picBox.AccessibleName = nameFigure;
 
 
-            // TODO -> method
+
             ContextMenuStrip contextMenuStripForCell = new ContextMenuStrip();
-            //contextMenuStripForCell = new ContextMenuStrip();
             ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
-            //contextMenuStripForCell.Items.Add(figureNameMenuItem);
             figureNameMenuItem.Click += FigureNameMenuItem_Click;
             contextMenuStripForCell.Items.Add(figureNameMenuItem);
             picBox.ContextMenuStrip = contextMenuStripForCell;
+
             this.Controls.Add(picBox);
         }
 
