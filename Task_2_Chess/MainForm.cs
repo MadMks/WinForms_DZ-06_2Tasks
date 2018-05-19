@@ -232,7 +232,6 @@ namespace Task_2_Chess
             picBox.AccessibleName = nameFigure;
 
 
-
             ContextMenuStrip contextMenuStripForCell = new ContextMenuStrip();
             ToolStripMenuItem figureNameMenuItem = new ToolStripMenuItem("Название фигуры");
             figureNameMenuItem.Click += FigureNameMenuItem_Click;
